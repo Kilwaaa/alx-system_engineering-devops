@@ -1,2 +1,3 @@
 #!/bin/bash
-ls -m
+ls -1Apv | grep -v "/$" | sed -r 's/(.*)\s/\1\//' | sort -df
+
