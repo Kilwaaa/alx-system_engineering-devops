@@ -1,12 +1,16 @@
-# this installs flask with pip3
+# this installs flask, python, werkzeug with pip3
 
-package { 'python3-pip':
-  ensure => installed,
+package { 'python3.8':
+    ensure   => '3.8.10',
+    provider => 'pip3',
 }
 
-exec { 'install_flask':
-  command => '/usr/bin/pip3 install flask==2.1.0',
-  path    => ['/usr/bin'],
-  unless  => '/usr/bin/pip3 show flask | grep -q "Version: 2.1.0"',
-  require => Package['python3-pip'],
+package { 'flask':
+    ensure   => '2.1.0',
+    provider => 'pip3',
+}
+
+package { 'werkzeug':
+    ensure   => '2.1.1',
+    provider => 'pip3',
 }
