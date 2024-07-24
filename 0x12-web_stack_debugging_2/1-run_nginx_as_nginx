@@ -1,7 +1,21 @@
 #!/usr/bin/env bash
-# Fixes the issue with the server
-chmod 644 /etc/nginx/nginx.conf
-sed -Ei 's/\s*#?\s*user .*/user nginx;/' /etc/nginx/nginx.conf
-sed -Ei 's/(listen (\[::\]:)?80) /\180 /' /etc/nginx/sites-enabled/default
-pkill apache2
-su nginx -s /bin/bash -c 'service nginx restart'
+# Configures Nginx to run as the 'nginx' user and listen on port 8080
+
+# Ensure nginx is installed
+if ! command -v nginx &> /dev/null; then
+    echo "Nginx is not installed."
+    exit 1
+fi
+
+# Update nginx.conf to run as nginx user
+sed -i 's/user www-data;/user nginx;/' /etc/nginx/nginx.conf
+
+# Update server block to listen on port 8080
+sed -i 's/listen 80;/listen 8080;/' /etc/nginx/sites-available/default
+
+# Restart Nginx to apply changes
+service nginx restart
+
+# Check the status of Nginx
+echo "Checking the status of Nginx..."
+ps auxff | grep ngin[x]
